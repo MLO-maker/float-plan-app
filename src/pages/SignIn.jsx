@@ -118,7 +118,7 @@ export default function SignIn() {
               <input
                 value={name}
                 onChange={(ev) => setName(ev.target.value)}
-                placeholder="e.g. Dana Reyes"
+                placeholder="e.g. James Cook"
                 className={errors.name ? 'invalid' : ''}
                 autoComplete="name"
                 autoFocus
@@ -133,7 +133,7 @@ export default function SignIn() {
               type="email"
               value={email}
               onChange={(ev) => setEmail(ev.target.value)}
-              placeholder="e.g. dana@example.com"
+              placeholder="e.g. james.cook@example.com"
               className={errors.email ? 'invalid' : ''}
               autoComplete="email"
               autoFocus={!isRegister}

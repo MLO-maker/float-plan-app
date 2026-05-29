@@ -270,7 +270,7 @@ function VesselStep({ form, set, errors }) {
           <input
             value={form.captainName}
             onChange={(e) => set('captainName', e.target.value)}
-            placeholder="e.g. Dana Reyes"
+            placeholder="e.g. James Cook"
             className={errors.captainName ? 'invalid' : ''}
           />
         </Field>
