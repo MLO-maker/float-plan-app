@@ -1,6 +1,7 @@
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { getPlan, deletePlan, updatePlan, subscribe } from '../lib/storage.js'
+import { getCurrentUser } from '../lib/auth.js'
 import {
   buildContactLinks,
   msUntilOverdue,
@@ -19,15 +20,22 @@ export default function PlanDetail() {
     return subscribe(refresh)
   }, [id])
 
-  if (!plan) {
+  // Scope access to the owner. A skipper can only view their own plans;
+  // anything else (missing, or owned by someone else) is treated the same so
+  // we don't reveal that another skipper's plan exists.
+  const user = getCurrentUser()
+  if (!plan || !user || plan.ownerId !== user.id) {
     return (
       <div>
         <Link to="/" className="back-link">
           ← Back to dashboard
         </Link>
         <div className="empty">
-          <h3>Float plan not found</h3>
-          <p>It may have been removed.</p>
+          <h3>Float plan not available</h3>
+          <p>
+            This plan doesn&apos;t exist or was filed by another skipper. You
+            can only view float plans filed under your own account.
+          </p>
         </div>
       </div>
     )

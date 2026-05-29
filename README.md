@@ -10,6 +10,11 @@ doesn't make it back on time.
 
 ## Features
 
+- **Per-skipper access** — boaters sign in with their name & email; every float
+  plan is tagged with its owner and the dashboard, check-in, and detail views
+  are scoped so each skipper only sees the plans they filed (with a URL-level
+  ownership guard). See the security note below — this is identity scoping for a
+  prototype, not a hardened auth boundary.
 - **Multi-step plan filing** — a guided 4-step form captures the vessel & crew,
   voyage details (departure, destination, departure & expected-return times,
   planned route), and one or more emergency contacts, with a final review step.
@@ -57,17 +62,20 @@ npm run preview  # preview the production build
 ```
 src/
   pages/
-    Dashboard.jsx    # overview of all plans + overdue alerts
+    SignIn.jsx       # skipper sign-in gate
+    Dashboard.jsx    # overview of the skipper's plans + overdue alerts
     FilePlan.jsx     # multi-step voyage-plan form
     CheckIn.jsx      # captain safe-return check-in
-    PlanDetail.jsx   # full plan view + emergency-contact actions
+    PlanDetail.jsx   # full plan view + emergency-contact actions (owner-only)
   lib/
+    auth.js          # skipper identity (sign in/out) + pub/sub
     storage.js       # localStorage persistence + pub/sub
     alerts.js        # overdue detection & alert dispatch
     format.js        # date / time helpers
   hooks/
-    usePlans.js      # live plans + periodic overdue scan
-  App.jsx            # shell + routing
+    useAuth.js       # current signed-in skipper
+    usePlans.js      # live plans (scoped to skipper) + periodic overdue scan
+  App.jsx            # shell + routing + auth gate
   index.css          # maritime theme
 ```
 

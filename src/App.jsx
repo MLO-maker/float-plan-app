@@ -3,6 +3,9 @@ import Dashboard from './pages/Dashboard.jsx'
 import FilePlan from './pages/FilePlan.jsx'
 import CheckIn from './pages/CheckIn.jsx'
 import PlanDetail from './pages/PlanDetail.jsx'
+import SignIn from './pages/SignIn.jsx'
+import { useAuth } from './hooks/useAuth.js'
+import { signOut } from './lib/auth.js'
 
 // Anchor that hides a W&A monogram: the ring + A-frame top form an "A"
 // (the anchor's stock crossbar doubles as the A's crossbar), while the
@@ -25,6 +28,11 @@ function LogoMark() {
 }
 
 export default function App() {
+  const user = useAuth()
+
+  // Until a skipper signs in, gate the whole app behind the sign-in screen.
+  if (!user) return <SignIn />
+
   return (
     <div className="app">
       <header className="topbar">
@@ -45,6 +53,17 @@ export default function App() {
             <NavLink to="/check-in" className="nav-link">
               Check In
             </NavLink>
+            <span className="nav-sep" />
+            <span className="nav-user" title={user.email}>
+              ⚓ {user.name}
+            </span>
+            <button
+              type="button"
+              className="nav-link nav-signout"
+              onClick={signOut}
+            >
+              Sign out
+            </button>
           </nav>
         </div>
       </header>

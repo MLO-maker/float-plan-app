@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { createPlan } from '../lib/storage.js'
+import { getCurrentUser } from '../lib/auth.js'
 import { GRACE_MINUTES } from '../lib/alerts.js'
 import { formatDateTime, toLocalInputValue } from '../lib/format.js'
 
@@ -110,7 +111,10 @@ export default function FilePlan() {
     const contacts = form.contacts.filter(
       (c) => c.name.trim() && (c.phone.trim() || c.email.trim()),
     )
+    const owner = getCurrentUser()
     const plan = createPlan({
+      ownerId: owner?.id,
+      ownerName: owner?.name,
       vesselName: form.vesselName.trim(),
       vesselDescription: form.vesselDescription.trim(),
       captainName: form.captainName.trim(),
