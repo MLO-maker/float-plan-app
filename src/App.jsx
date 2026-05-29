@@ -4,12 +4,15 @@ import FilePlan from './pages/FilePlan.jsx'
 import CheckIn from './pages/CheckIn.jsx'
 import PlanDetail from './pages/PlanDetail.jsx'
 
-function AnchorMark() {
+// W&A monogram: an "A" peak (sail / bow) riding over a "W" rendered as waves.
+function LogoMark() {
   return (
     <svg viewBox="0 0 24 24" className="brand-mark" aria-hidden="true">
-      <circle cx="12" cy="5" r="3" />
-      <line x1="12" y1="22" x2="12" y2="8" />
-      <path d="M5 12H2a10 10 0 0 0 20 0h-3" />
+      {/* A — peak with crossbar */}
+      <path d="M12 3.5 L7.4 15 M12 3.5 L16.6 15" />
+      <path d="M9.2 11 H14.8" />
+      {/* W — waves */}
+      <path d="M3 18 L7 21.5 L12 18 L17 21.5 L21 18" />
     </svg>
   )
 }
@@ -20,7 +23,7 @@ export default function App() {
       <header className="topbar">
         <div className="topbar-inner">
           <NavLink to="/" className="brand">
-            <AnchorMark />
+            <LogoMark />
             <span className="brand-text">
               Float<span className="brand-accent">Plan</span>
             </span>
