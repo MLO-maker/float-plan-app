@@ -189,9 +189,8 @@ export default function SignIn() {
         </p>
 
         <p className="note signin-note">
-          Prototype auth — passcodes are hashed (PBKDF2/SHA-256) and stored only
-          on this device; sessions expire after 12 hours. Not a substitute for
-          server-side authentication.
+          Your passcode is kept secure, and sessions expire automatically after
+          12 hours.
         </p>
       </div>
     </div>
