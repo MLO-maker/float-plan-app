@@ -217,6 +217,57 @@ body {
   margin-top: 1.25rem;
 }
 
+.signin-tabs {
+  display: flex;
+  gap: 0.3rem;
+  background: rgba(15, 48, 87, 0.08);
+  border-radius: 999px;
+  padding: 0.25rem;
+  margin-bottom: 1.25rem;
+}
+
+.signin-tab {
+  flex: 1;
+  font: inherit;
+  font-weight: 700;
+  font-size: 0.9rem;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  padding: 0.55rem 0.5rem;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.signin-tab.active {
+  background: var(--navy-700);
+  color: var(--foam-100);
+}
+
+.signin-formerror {
+  text-align: center;
+  margin: 0 0 1rem;
+}
+
+.signin-switch {
+  text-align: center;
+  margin: 1rem 0 0;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.signin-switch button {
+  background: none;
+  border: none;
+  color: var(--steel-500);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: underline;
+}
+
 /* ---------- Layout ---------- */
 .content {
   flex: 1;

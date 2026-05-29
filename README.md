@@ -10,11 +10,11 @@ doesn't make it back on time.
 
 ## Features
 
-- **Per-skipper access** — boaters sign in with their name & email; every float
-  plan is tagged with its owner and the dashboard, check-in, and detail views
-  are scoped so each skipper only sees the plans they filed (with a URL-level
-  ownership guard). See the security note below — this is identity scoping for a
-  prototype, not a hardened auth boundary.
+- **Per-skipper accounts** — boaters register and sign in with a passcode;
+  every float plan is tagged with its owner and the dashboard, check-in, and
+  detail views are scoped so each skipper only sees the plans they filed (with a
+  URL-level ownership guard). See the **Authentication & security** section
+  below for what the auth does and does not protect against.
 - **Multi-step plan filing** — a guided 4-step form captures the vessel & crew,
   voyage details (departure, destination, departure & expected-return times,
   planned route), and one or more emergency contacts, with a final review step.
@@ -41,6 +41,29 @@ This is a **client-only prototype**: plans are stored in the browser's
 pre-filled `mailto:` / `sms:` links for one-tap follow-up). In production the
 `dispatchAlerts` function would call a server-side SMS/email gateway (Twilio,
 SendGrid, etc.) so contacts are notified even when the app isn't open.
+
+## Authentication & security
+
+Sign-in is credentialed, not just an identity claim ([`src/lib/auth.js`](src/lib/auth.js)):
+
+- **Passcodes are never stored.** Each account holds a random 16-byte salt and a
+  PBKDF2/SHA-256 hash (150,000 iterations) derived via the Web Crypto API. Login
+  re-derives and compares the hash in **constant time**.
+- **Brute-force throttling.** After 5 failed attempts an account is locked for 30
+  seconds.
+- **No user enumeration.** Login always runs a derivation (even for unknown
+  emails) and returns a single generic "Incorrect email or passcode" message, so
+  response timing and wording don't reveal which emails are registered.
+- **Session expiry.** Sessions expire after 12 hours; expired (and legacy
+  no-expiry) sessions force a fresh sign-in.
+
+**What this does NOT protect against:** everything still lives in the browser's
+`localStorage`, so anyone with the device — or any script running on the page —
+can read the stored hashes (and attempt an *offline* brute force) or edit a
+plan's `ownerId` directly. The client-side ownership guard is a UX boundary, not
+an enforcement boundary. **Real multi-user privacy requires server-side
+authentication and ownership checks**; this module is the client half of that
+contract. Don't store genuinely sensitive data in this prototype.
 
 ## Tech stack
 
