@@ -3,11 +3,10 @@ import react from '@vitejs/plugin-react'
 
 // https://vitejs.dev/config/
 //
-// The site is served from a project page (https://mlo-maker.github.io/
-// float-plan-app/) so production builds need that sub-path as the base. The
-// dev server stays at the root so local development and the launch preview are
-// unaffected.
-export default defineConfig(({ command }) => ({
-  base: command === 'build' ? '/float-plan-app/' : '/',
+// Served from the root of a custom domain (https://overdueboat.com/), so the
+// base is "/". (When this was hosted on the github.io project page it needed
+// the "/float-plan-app/" sub-path instead.)
+export default defineConfig({
+  base: '/',
   plugins: [react()],
-}))
+})
